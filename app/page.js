@@ -1,163 +1,104 @@
-'use client';
+import React from 'react';
 
-import React, { useState } from 'react';
-
-export default function Home() {
-  const [activeTab, setActiveTab] = useState('reports');
-  const [filterSource, setFilterSource] = useState('all');
-
-  const [reports, setReports] = useState([
-    {
-      id: 1,
-      source: 'טלגרם',
-      channel: 'ערוץ דיווחי שטח',
-      time: 'לפני 2 דקות',
-      text: 'תנועה חריגה נצפתה בצומת המרכזי. פרטים נוספים בהמשך',
-      location: 'גזרת מרכז',
-      severity: 'high'
-    },
-    {
-      id: 2,
-      source: 'גוגל / רשת',
-      channel: 'חדשות בזמן אמת',
-      time: 'לפני 8 דקות',
-      text: 'עקבות עבודות דחופות, עומסים כבדים מורגשים באזור',
-      location: 'תל אביב',
-      severity: 'medium'
-    },
-    {
-      id: 3,
-      source: 'טלגרם',
-      channel: 'מבזקי ביטחון',
-      time: 'לפני 15 דקות',
-      text: 'האירוע הסתיים ללא נפגעים, חזרה מלאה לשגרה',
-      location: 'תל אביב',
-      severity: 'low'
-    }
-  ]);
-
-  const filteredReports = filterSource === 'all'
-    ? reports
-    : reports.filter(r => r.source === filterSource);
-
+export default function OsintHub() {
   return (
-    <div dir="rtl" className="min-h-screen bg-slate-950 text-slate-100">
-      <header className="bg-slate-900 border-b border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="inline-block w-3 h-3 bg-red-500 rounded-full animate-pulse" />
-            <h1 className="text-xl font-bold tracking-wide">OSINT Hub</h1>
-            <span className="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full">גרסה 1.0 (Live)</span>
-          </div>
-        </div>
+    <div className="min-h-screen bg-gray-900 text-gray-100 p-4 md:p-8 font-sans dir-rtl" dir="rtl">
+      
+      {/* כותרת עליונה */}
+      <header className="flex justify-between items-center mb-8 border-b border-gray-700 pb-4">
+        <h1 className="text-3xl font-bold text-blue-400 tracking-wide">OSINT Hub</h1>
+        <span className="bg-green-500 text-gray-900 text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+          גרסה 1.0 (Live)
+        </span>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 py-8">
-        <nav className="bg-slate-900 border border-slate-800 rounded-lg p-1 flex">
-          <button
-            onClick={() => setActiveTab('reports')}
-            className={`flex-1 text-center py-2 px-4 rounded-md text-sm font-medium transition ${activeTab === 'reports' ? 'bg-blue-600' : 'text-slate-400 hover:text-slate-100'}`}
+      {/* תפריט ניווט */}
+      <nav className="flex gap-3 mb-8 overflow-x-auto pb-2" aria-label="תפריט ראשי">
+        {['לוח דיווחים ומפות חמות', 'שידור חי ומיקומים', 'חיבור מקורות מידע'].map((tab, idx) => (
+          <button 
+            key={idx} 
+            className={`whitespace-nowrap text-sm font-medium py-2 px-5 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              idx === 0 ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-md' : 'bg-gray-800 hover:bg-gray-700 text-gray-300'
+            }`}
           >
-            לוח דיווחים ומפות מזהים
+            {tab}
           </button>
-          <button
-            onClick={() => setActiveTab('live')}
-            className={`flex-1 text-center py-2 px-4 rounded-md text-sm font-medium transition ${activeTab === 'live' ? 'bg-blue-600' : 'text-slate-400 hover:text-slate-100'}`}
-          >
-            שידור חי ומיקומים
-          </button>
-          <button
-            onClick={() => setActiveTab('sources')}
-            className={`flex-1 text-center py-2 px-4 rounded-md text-sm font-medium transition ${activeTab === 'sources' ? 'bg-blue-600' : 'text-slate-400 hover:text-slate-100'}`}
-          >
-            חיבור מקורות מידע
-          </button>
-        </nav>
+        ))}
+      </nav>
 
-        {activeTab === 'reports' && (
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-8">
-            <aside className="bg-slate-900 border border-slate-800 rounded-lg p-6">
-              <h2 className="text-lg font-bold mb-4">סינון דיווחים</h2>
-              <h3 className="text-sm text-slate-400 mb-2">מקור הדיווח</h3>
-              <div className="flex flex-wrap gap-2">
-                <button
-                  onClick={() => setFilterSource('all')}
-                  className={`px-3 py-1 rounded-full text-xs font-medium transition ${filterSource === 'all' ? 'bg-slate-100 text-slate-900' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}`}
-                >
-                  הכל
-                </button>
-                <button
-                  onClick={() => setFilterSource('טלגרם')}
-                  className={`px-3 py-1 rounded-full text-xs font-medium transition ${filterSource === 'טלגרם' ? 'bg-slate-100 text-slate-900' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}`}
-                >
-                  טלגרם
-                </button>
-                <button
-                  onClick={() => setFilterSource('גוגל / רשת')}
-                  className={`px-3 py-1 rounded-full text-xs font-medium transition ${filterSource === 'גוגל / רשת' ? 'bg-slate-100 text-slate-900' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}`}
-                >
-                  גוגל / רשת
-                </button>
-              </div>
-            </aside>
-
-            <section className="md:col-span-3 space-y-4">
-              {filteredReports.map(report => (
-                <article key={report.id} className="bg-slate-900 border border-slate-800 rounded-lg p-5 hover:border-slate-600 transition">
-                  <div className="flex justify-between items-start mb-2">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full">{report.source}</span>
-                      <span className="text-xs text-slate-400">{report.channel}</span>
-                    </div>
-                    <span className={`w-3 h-3 rounded-full ${report.severity === 'high' ? 'bg-red-500' : report.severity === 'medium' ? 'bg-yellow-500' : 'bg-green-500'}`} />
-                  </div>
-                  <p className="text-slate-100 text-base leading-relaxed">{report.text}</p>
-                  <div className="mt-4 flex justify-between items-center text-xs text-slate-400">
-                    <div>
-                      <span className="text-slate-500">מיקום: </span>
-                      {report.location}
-                    </div>
-                    <div>{report.time}</div>
-                  </div>
-                </article>
-              ))}
-            </section>
+      {/* אזור תוכן מרכזי */}
+      <main className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        {/* עמודה ימנית: סינון דיווחים */}
+        <section className="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700/50">
+          <header className="mb-6">
+            <h2 className="text-xl font-semibold text-blue-300">מקור הדיווח</h2>
+          </header>
+          
+          <div className="flex gap-2 mb-6">
+            <button className="bg-blue-600/20 text-blue-400 border border-blue-500/30 hover:bg-blue-600/30 px-4 py-1.5 rounded-md transition text-sm font-medium">הכל</button>
+            <button className="bg-gray-700 hover:bg-gray-600 px-4 py-1.5 rounded-md transition text-sm font-medium">טלגרם</button>
+            <button className="bg-gray-700 hover:bg-gray-600 px-4 py-1.5 rounded-md transition text-sm font-medium">גוגל / רשת</button>
           </div>
-        )}
 
-        {activeTab === 'live' && (
-          <div className="mt-8 bg-slate-900 border border-slate-800 rounded-lg p-6">
-            <h2 className="text-lg font-bold mb-4">שידור חי ומיקומים</h2>
-            <div className="aspect-video bg-slate-800 rounded flex items-center justify-center">
-              <span className="text-slate-400">כאן נשלב את המפה (Leaflet / Google Maps API)</span>
+          <ul className="space-y-4">
+            <li className="bg-gray-900/50 p-4 rounded-xl border-r-4 border-red-500 shadow-sm">
+              <p className="text-sm font-medium text-gray-200">תנועה חריגה נצפתה בצומת המרכזי. פרטים נוספים בהמשך.</p>
+              <div className="flex justify-between items-center mt-3 text-xs text-gray-400">
+                <span>מקור: גוגל / רשת</span>
+                <span>לפני 2 דקות</span>
+              </div>
+            </li>
+            <li className="bg-gray-900/50 p-4 rounded-xl border-r-4 border-yellow-500 shadow-sm">
+              <p className="text-sm font-medium text-gray-200">עקבות עבודות דחופות, עומסים כבדים מורגשים באזור.</p>
+              <div className="flex justify-between items-center mt-3 text-xs text-gray-400">
+                <span>מיקום: תל אביב</span>
+                <span>לפני 8 דקות</span>
+              </div>
+            </li>
+            <li className="bg-gray-900/50 p-4 rounded-xl border-r-4 border-blue-500 shadow-sm">
+              <p className="text-sm font-medium text-gray-200">האירוע הסתיים ללא נפגעים, חזרה מלאה לשגרה.</p>
+              <div className="flex justify-between items-center mt-3 text-xs text-gray-400">
+                <span>מיקום: תל אביב</span>
+                <span>לפני 15 דקות</span>
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        {/* עמודה שמאלית: מפה ומקורות מידע */}
+        <div className="space-y-8">
+          
+          {/* שידור חי ומיקומים */}
+          <section className="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700/50">
+            <h2 className="text-xl font-semibold mb-4 text-blue-300">שידור חי ומיקומים</h2>
+            <div className="h-56 bg-gray-900/80 rounded-xl flex flex-col items-center justify-center border border-dashed border-gray-600">
+              <svg className="w-8 h-8 text-gray-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+              <p className="text-gray-400 text-sm">כאן נשלב את המפה</p>
+              <p className="text-gray-500 text-xs mt-1">(Leaflet / Google Maps API)</p>
             </div>
-          </div>
-        )}
+          </section>
 
-        {activeTab === 'sources' && (
-          <div className="mt-8 bg-slate-900 border border-slate-800 rounded-lg p-6">
-            <h2 className="text-lg font-bold mb-4">חיבור מקורות מידע</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="border border-slate-700 rounded-lg p-4 flex items-center justify-between">
-                <div>
-                  <h3 className="font-bold">WhatsApp API</h3>
-                  <p className="text-sm text-slate-400">ממתין להזנת מפתחות</p>
-                </div>
-                <button className="px-4 py-2 bg-blue-600 rounded-md text-sm font-medium">התחבר</button>
+          {/* חיבור מקורות מידע */}
+          <section className="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700/50">
+            <h2 className="text-xl font-semibold mb-5 text-blue-300">חיבור מקורות מידע</h2>
+            <div className="flex flex-col space-y-3">
+              <div className="flex justify-between items-center bg-gray-900/60 p-4 rounded-xl border border-gray-700/30">
+                <span className="font-medium text-gray-200">WhatsApp API</span>
+                <button className="bg-emerald-600 hover:bg-emerald-500 text-white text-sm px-4 py-1.5 rounded-lg transition-colors font-medium">התחבר</button>
               </div>
-              <div className="border border-slate-700 rounded-lg p-4 flex items-center justify-between">
-                <div>
-                  <h3 className="font-bold">Telegram Bot</h3>
-                  <p className="text-sm text-slate-400">ממתין לחיבור</p>
-                </div>
-                <button className="px-4 py-2 bg-blue-600 rounded-md text-sm font-medium">התחבר</button>
+              <div className="flex justify-between items-center bg-gray-900/60 p-4 rounded-xl border border-gray-700/30">
+                <span className="font-medium text-gray-200">Telegram Bot</span>
+                <button className="bg-sky-600 hover:bg-sky-500 text-white text-sm px-4 py-1.5 rounded-lg transition-colors font-medium">התחבר</button>
               </div>
             </div>
-          </div>
-        )}
+          </section>
+          
+        </div>
       </main>
-
-      <footer className="border-t border-slate-800 mt-12 py-8 text-center text-slate-500 text-sm">
+      
+      {/* פוטר */}
+      <footer className="mt-12 text-center text-sm text-gray-500 border-t border-gray-800 pt-6">
         <p>מעקב ואיסוף מידע בזמן אמת • מערכת פרטית</p>
       </footer>
     </div>
