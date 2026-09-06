@@ -32,7 +32,7 @@ export default function Home() {
       channel: 'מבזקי ביטחון',
       time: 'לפני 15 דקות',
       text: 'הודעת דוברות: האירוע הסתיים ללא נפגעים, חזרה מלאה לשגרה.',
-      location: 'ירושלים',
+      location: 'תל אביב,
       severity: 'low'
     }
   ]);
